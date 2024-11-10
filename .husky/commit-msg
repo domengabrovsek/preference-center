@@ -1,0 +1,14 @@
+npx commitlint < "$1" || (echo "Invalid commit message! Please follow the Conventional Commits format. Options include:
+  - build: Changes that affect the build system or external dependencies
+  - chore: Other changes that don't modify src or test files
+  - ci: Changes to our CI configuration files and scripts
+  - docs: Documentation only changes
+  - feat: A new feature
+  - fix: A bugfix
+  - perf: A code change that improves performance
+  - refactor: A code change that neither fixes a bug nor adds a feature
+  - revert: Reverts a previous commit
+  - style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+  - test: Adding missing tests or correcting existing tests
+
+To indicate a breaking change, add exclamation mark (!) next to conventional commit keyword e.g. 'feat!: a breaking change feature'"; false)
