@@ -21,9 +21,9 @@
     "typeRoots": ["./node_modules/@types", "./node_modules"],
     "verbatimModuleSyntax": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "coverage"]
+  "include": ["src/**/*.ts", "tests/**/*.ts", "vitest.config.ts"],
+  "exclude": ["node_modules"]
 }
