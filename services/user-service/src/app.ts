@@ -98,11 +98,6 @@ export async function buildApp() {
   await app.register(fastifyPostgres, {
     connectionString: config.DATABASE_URL,
     connectionTimeoutMillis: 5000,
-    pool: {
-      min: 2,
-      max: 10,
-      idleTimeoutMillis: 30000,
-    },
   });
 
   // Check database connection
