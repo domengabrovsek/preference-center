@@ -16,6 +16,7 @@
     "test": "npm run test:user-service"
   },
   "preinstall": "npx husky",
+  "postinstall": "cd services/user-service && npm install",
   "devDependencies": {
     "husky": "^9.1.6",
     "@commitlint/cli": "^19.5.0",
