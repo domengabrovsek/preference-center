@@ -7,6 +7,14 @@
     "node": "22.x",
     "npm": "10.x"
   },
+  "scripts": {
+    "build:user-service": "cd services/user-service && npm run build",
+    "build": "npm run build:user-service",
+    "lint:user-service": "cd services/user-service && npm run lint",
+    "lint": "npm run lint:user-service",
+    "test:user-service": "cd services/user-service && npm run test",
+    "test": "npm run test:user-service"
+  },
   "preinstall": "npx husky",
   "devDependencies": {
     "husky": "^9.1.6",
