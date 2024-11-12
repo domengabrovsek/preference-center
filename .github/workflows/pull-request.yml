@@ -47,3 +47,28 @@ jobs:
 
       - name: Run build
         run: npm run build
+
+  test:
+    needs: [lint, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install dependencies
+        run: npm ci --no-progress
+
+      - name: Install user-service dependencies
+        working-directory: services/user-service
+        run: npm ci --no-progress
+
+      - name: Start database
+        run: docker compose up -d
+
+      - name: Run tests
+        run: npm run test
