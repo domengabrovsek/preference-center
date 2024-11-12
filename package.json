@@ -1,0 +1,12 @@
+{
+  "name": "didomi-backend-challenge",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Didomi backend challenge",
+  "engines": {
+    "node": "22.x",
+    "npm": "10.x"
+  },
+  "author": "Domen Gabrovsek",
+  "license": "MIT"
+}
