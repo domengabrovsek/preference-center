@@ -58,6 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      MIGREATE: 'true'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
