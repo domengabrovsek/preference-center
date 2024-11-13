@@ -12,6 +12,7 @@ interface Config {
   HOST: string;
   DATABASE_URL: string;
   LOG_LEVEL: LogLevel;
+  MIGRATE: boolean;
 }
 
 function validateEnv(env: string | undefined, validValues: string[]): string {
@@ -54,6 +55,7 @@ function loadConfig(): Config {
     HOST: process.env.HOST || '0.0.0.0',
     DATABASE_URL: validateDatabaseUrl(process.env.DATABASE_URL),
     LOG_LEVEL: validateEnv(process.env.LOG_LEVEL, ['debug', 'info', 'warn', 'error']) as LogLevel,
+    MIGRATE: process.env.MIGRATE === 'true',
   };
 
   return config;

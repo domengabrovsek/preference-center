@@ -22,4 +22,25 @@ export const createUserSchema = Type.Object(
   },
 );
 
+export const getUserByIdSchema = Type.Object(
+  {
+    id: Type.String({
+      format: 'uuid',
+      description: 'User id',
+    }),
+  },
+  {
+    $id: 'GetUserByIdSchema',
+    title: 'Get User By Id Request',
+    description: 'Schema for getting a user by id',
+    examples: [
+      {
+        id: 'ba1ad90d-b471-45a1-b5ca-b4a339e16ccf',
+      },
+    ],
+    additionalProperties: false,
+  },
+);
+
 export type CreateUserDto = Static<typeof createUserSchema>;
+export type GetUserByIdDto = Static<typeof getUserByIdSchema>;

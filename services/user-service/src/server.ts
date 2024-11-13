@@ -9,7 +9,9 @@ async function start() {
     await app.listen({ port: config.PORT, host: config.HOST });
     app.log.info(`Server listening on ${config.PORT}`);
   } catch (error) {
-    app.log.error(`Error starting server: ${error}`);
+    // if the server fails to start, fastify logger is not available
+    /* eslint-disable-next-line no-console */
+    console.error(`Error starting server: ${error}`);
     process.exit(1);
   }
 }

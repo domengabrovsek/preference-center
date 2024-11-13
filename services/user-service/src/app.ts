@@ -7,7 +7,7 @@ import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { config } from '@config/config';
 import userRoutes from '@routes/user.routes';
 import { runMigrations } from '@db/migrate';
-import { DatabaseError } from '@utils/errors';
+import { DatabaseError, NotFoundError } from '@utils/errors';
 import { databaseErrorCode } from '@constants/db';
 
 async function checkDatabaseConnection(app: FastifyInstance) {
@@ -53,6 +53,14 @@ export async function buildApp() {
       }
     }
 
+    // Handle not found errors
+    if (error instanceof NotFoundError) {
+      return reply.status(404).send({
+        error: 'Not Found',
+        message: 'Entity not found',
+      });
+    }
+
     // Handle validation errors
     if (error.validation) {
       return reply.status(422).send({
@@ -77,7 +85,7 @@ export async function buildApp() {
         description: 'User service API',
         version: '1.0.0',
       },
-      servers: [{ url: 'https://localhost:3001/api/v1/users', description: 'Dev' }],
+      servers: [{ url: 'http://localhost:3001/api/v1/users', description: 'Dev' }],
       tags: [{ name: 'users', description: 'User service' }],
     },
   });
@@ -104,7 +112,9 @@ export async function buildApp() {
   await checkDatabaseConnection(app);
 
   // Run database migrations
-  await runMigrations(app);
+  if (config.MIGRATE) {
+    await runMigrations(app);
+  }
 
   // Register routes
   app.log.info('Registering user routes');

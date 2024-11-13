@@ -14,7 +14,7 @@ afterAll(async () => {
   await app.close();
 });
 
-describe('User service tests', () => {
+describe('Create user tests', () => {
   it('should return 422 if email is an empty string', async () => {
     const request: CreateUserDto = {
       email: '',

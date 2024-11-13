@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify';
 import { BaseRepository } from './base.repository';
 import type { CreateUserDto } from '../schemas/user.schema';
 import type { User } from '@models/user';
-import { DatabaseError } from '@utils/errors';
+import { DatabaseError, NotFoundError } from '@utils/errors';
 
 interface UserDb {
   id: string;
@@ -48,19 +48,21 @@ export class UserRepository extends BaseRepository {
     }
   }
 
-  public async findById(id: string): Promise<User | null> {
+  public async getById(id: string): Promise<User> {
     const {
       rows: [user],
     } = await this.query<UserDb>('SELECT id, email FROM users WHERE id = $1', [id]);
 
-    return user ? this.mapUser(user) : null;
+    if (!user) {
+      throw NotFoundError.notFound();
+    }
+
+    return this.mapUser(user);
   }
 
-  public async findByEmail(email: string): Promise<User | null> {
-    const {
-      rows: [user],
-    } = await this.query<UserDb>('SELECT id, email FROM users WHERE email = $1', [email]);
+  public async getAll(): Promise<User[]> {
+    const { rows } = await this.query<UserDb>('SELECT id, email FROM users');
 
-    return user ? this.mapUser(user) : null;
+    return rows.map((user) => this.mapUser(user));
   }
 }
