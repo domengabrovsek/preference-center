@@ -112,7 +112,9 @@ export async function buildApp() {
   await checkDatabaseConnection(app);
 
   // Run database migrations
-  await runMigrations(app);
+  if (config.MIGRATE) {
+    await runMigrations(app);
+  }
 
   // Register routes
   app.log.info('Registering user routes');
