@@ -16,7 +16,7 @@
     "lint:fix": "eslint src --fix",
     "migrate:create": "node-pg-migrate create -j sql",
     "migrate:up": "node-pg-migrate up",
-    "test": "vitest run tests"
+    "test": "vitest run tests/api/create-user.test.ts && vitest run tests/api/get-user.test.ts && vitest run tests/api/get-users.test.ts"
   },
   "keywords": [],
   "author": "Domen Gabrovsek",
