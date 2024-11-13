@@ -48,7 +48,7 @@ export class UserRepository extends BaseRepository {
     }
   }
 
-  public async getById(id: string): Promise<User | null> {
+  public async getById(id: string): Promise<User> {
     const {
       rows: [user],
     } = await this.query<UserDb>('SELECT id, email FROM users WHERE id = $1', [id]);
@@ -57,6 +57,6 @@ export class UserRepository extends BaseRepository {
       throw NotFoundError.notFound();
     }
 
-    return user ? this.mapUser(user) : null;
+    return this.mapUser(user);
   }
 }
