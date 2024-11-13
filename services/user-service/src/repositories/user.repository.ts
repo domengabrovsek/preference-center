@@ -48,18 +48,10 @@ export class UserRepository extends BaseRepository {
     }
   }
 
-  public async findById(id: string): Promise<User | null> {
+  public async getById(id: string): Promise<User | null> {
     const {
       rows: [user],
     } = await this.query<UserDb>('SELECT id, email FROM users WHERE id = $1', [id]);
-
-    return user ? this.mapUser(user) : null;
-  }
-
-  public async findByEmail(email: string): Promise<User | null> {
-    const {
-      rows: [user],
-    } = await this.query<UserDb>('SELECT id, email FROM users WHERE email = $1', [email]);
 
     return user ? this.mapUser(user) : null;
   }
