@@ -59,4 +59,10 @@ export class UserRepository extends BaseRepository {
 
     return this.mapUser(user);
   }
+
+  public async getAll(): Promise<User[]> {
+    const { rows } = await this.query<UserDb>('SELECT id, email FROM users');
+
+    return rows.map((user) => this.mapUser(user));
+  }
 }

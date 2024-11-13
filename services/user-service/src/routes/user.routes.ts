@@ -23,6 +23,15 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
     },
   });
 
+  // GET /api/v1/users
+  fastify.get('/', {
+    schema: { tags: ['users'] },
+    handler: async (request, reply) => {
+      const users = await userService.getUsers();
+      reply.status(200).send(users);
+    },
+  });
+
   // DELETE /api/v1/users/:email
   // TODO: Implement
 };
