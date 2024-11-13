@@ -7,7 +7,7 @@ import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { config } from '@config/config';
 import userRoutes from '@routes/user.routes';
 import { runMigrations } from '@db/migrate';
-import { DatabaseError } from '@utils/errors';
+import { DatabaseError, NotFoundError } from '@utils/errors';
 import { databaseErrorCode } from '@constants/db';
 
 async function checkDatabaseConnection(app: FastifyInstance) {
@@ -51,6 +51,14 @@ export async function buildApp() {
           message: 'Referenced entity does not exist',
         });
       }
+    }
+
+    // Handle not found errors
+    if (error instanceof NotFoundError) {
+      return reply.status(404).send({
+        error: 'Not Found',
+        message: 'Entity not found',
+      });
     }
 
     // Handle validation errors

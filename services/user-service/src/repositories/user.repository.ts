@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify';
 import { BaseRepository } from './base.repository';
 import type { CreateUserDto } from '../schemas/user.schema';
 import type { User } from '@models/user';
-import { DatabaseError } from '@utils/errors';
+import { DatabaseError, NotFoundError } from '@utils/errors';
 
 interface UserDb {
   id: string;
@@ -52,6 +52,10 @@ export class UserRepository extends BaseRepository {
     const {
       rows: [user],
     } = await this.query<UserDb>('SELECT id, email FROM users WHERE id = $1', [id]);
+
+    if (!user) {
+      throw NotFoundError.notFound();
+    }
 
     return user ? this.mapUser(user) : null;
   }

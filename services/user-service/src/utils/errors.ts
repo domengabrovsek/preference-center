@@ -32,4 +32,8 @@ export class NotFoundError extends Error {
     super(message);
     this.name = 'NotFoundError';
   }
+
+  static notFound(): NotFoundError {
+    return new NotFoundError('Entity not found');
+  }
 }
