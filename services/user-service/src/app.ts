@@ -85,7 +85,7 @@ export async function buildApp() {
         description: 'User service API',
         version: '1.0.0',
       },
-      servers: [{ url: 'https://localhost:3001/api/v1/users', description: 'Dev' }],
+      servers: [{ url: 'http://localhost:3001/api/v1/users', description: 'Dev' }],
       tags: [{ name: 'users', description: 'User service' }],
     },
   });
