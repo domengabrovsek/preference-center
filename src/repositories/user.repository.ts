@@ -10,7 +10,6 @@ interface UserDb {
   email_notifications: boolean;
   sms_notifications: boolean;
   created_at: Date;
-  updated_at: Date;
 }
 
 export class UserRepository extends BaseRepository {

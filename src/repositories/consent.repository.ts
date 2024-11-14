@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import { BaseRepository } from './base.repository';
-import type { ConsentEvent } from '@models/consent';
+import type { ConsentEvent, ConsentEventHistory } from '@models/consent';
 import { DatabaseError } from '@utils/errors';
 import type { CreateConsentEventDto } from '@schemas/consent.schema';
 
@@ -10,7 +10,6 @@ interface ConsentEventDb {
   sms_notifications: boolean;
   email_notifications: boolean;
   created_at: Date;
-  updated_at: Date;
 }
 
 export class ConsentEventRepository extends BaseRepository {
@@ -44,6 +43,8 @@ export class ConsentEventRepository extends BaseRepository {
         data.consents.email_notifications,
       ]);
 
+      this.fastify.log.info('Created consent event', consent_event);
+
       return this.mapConsentEvent(consent_event);
     } catch (error) {
       this.fastify.log.error(error);
@@ -60,12 +61,23 @@ export class ConsentEventRepository extends BaseRepository {
     }
   }
 
-  public async getAllByUserId(userId: string): Promise<ConsentEvent[]> {
-    const { rows } = await this.query<ConsentEventDb>(
-      'SELECT user_id, sms_notifications, email_notifications FROM consent_events WHERE user_id = $1',
-      [userId],
-    );
+  public async getAllByUserId(userId: string): Promise<ConsentEventHistory> {
+    const query = `
+    SELECT user_id, sms_notifications, email_notifications, created_at 
+    FROM consent_events 
+    WHERE user_id = $1
+    ORDER BY created_at DESC
+    `;
 
-    return rows.map((consentEvent) => this.mapConsentEvent(consentEvent));
+    const { rows } = await this.query<ConsentEventDb>(query, [userId]);
+
+    return {
+      id: rows[0].user_id,
+      consents: rows.map((consentEvent) => ({
+        email_notifications: consentEvent.email_notifications,
+        sms_notifications: consentEvent.sms_notifications,
+        created_at: consentEvent.created_at,
+      })),
+    };
   }
 }
