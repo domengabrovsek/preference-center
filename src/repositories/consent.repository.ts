@@ -39,7 +39,9 @@ export class ConsentEventRepository extends BaseRepository {
       const {
         rows: [consent_event],
       } = await this.query<ConsentEventDb>(query, [
-        (data.user.id, data.consents.sms_notifications, data.consents.email_notifications),
+        data.user.id,
+        data.consents.sms_notifications,
+        data.consents.email_notifications,
       ]);
 
       return this.mapConsentEvent(consent_event);
