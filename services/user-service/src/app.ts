@@ -6,6 +6,7 @@ import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 
 import { config } from '@config/config';
 import userRoutes from '@routes/user.routes';
+import consentRoutes from '@routes/consent.routes';
 import { runMigrations } from '@db/migrate';
 import { DatabaseError, NotFoundError } from '@utils/errors';
 import { databaseErrorCode } from '@constants/db';
@@ -81,12 +82,11 @@ export async function buildApp() {
   await app.register(fastifySwagger, {
     openapi: {
       info: {
-        title: 'User Service',
-        description: 'User service API',
+        title: 'Preferences management API',
+        description: 'API for managing user preferences',
         version: '1.0.0',
       },
-      servers: [{ url: 'http://localhost:3001/api/v1/users', description: 'Dev' }],
-      tags: [{ name: 'users', description: 'User service' }],
+      servers: [{ url: 'http://localhost:3001', description: 'Dev' }],
     },
   });
 
@@ -116,9 +116,13 @@ export async function buildApp() {
     await runMigrations(app);
   }
 
-  // Register routes
+  // Register user routes
   app.log.info('Registering user routes');
   await app.register(userRoutes, { prefix: '/api/v1/users' });
+
+  // Register consent routes
+  app.log.info('Registering consent routes');
+  await app.register(consentRoutes, { prefix: '/api/v1/events' });
 
   return app;
 }
