@@ -44,9 +44,6 @@ export const unprocessableEntityErrorSchema = Type.Object(
     description: 'Schema for a generic unprocessable entity error response',
     examples: [
       {
-        message: 'User with this username already exists',
-      },
-      {
         message: 'Referenced entity does not exist',
       },
     ],
