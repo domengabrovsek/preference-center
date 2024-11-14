@@ -13,6 +13,7 @@ export class ConsentEventService {
   }
 
   async createConsentEvent(consentEvent: CreateConsentEventDto) {
+    this.fastify.log.info('Creating consent event', consentEvent);
     return this.repository.create(consentEvent);
   }
 
