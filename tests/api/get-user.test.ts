@@ -192,4 +192,42 @@ describe('Get user tests', () => {
     expect(consents).toContainEqual({ id: 'email_notifications', enabled: true });
     expect(consents).toContainEqual({ id: 'sms_notifications', enabled: true });
   });
+
+  it('should return 404 after user has been deleted', async () => {
+    // create user
+    const createUserRequest: CreateUserDto = {
+      email: `${randomUUID()}@example.com`,
+    };
+
+    const createUserResponse = await app.inject({
+      method: 'POST',
+      url,
+      payload: createUserRequest,
+    });
+
+    // get user before deletion
+    const getUserRequest1: GetUserByIdDto = { id: JSON.parse(createUserResponse.body).id };
+    const getUserResponse1 = await app.inject({
+      method: 'get',
+      url: `${url}/${getUserRequest1.id}`,
+      payload: getUserRequest1,
+    });
+
+    // delete user
+    await app.inject({
+      method: 'DELETE',
+      url: `${url}/${JSON.parse(createUserResponse.body).id}`,
+    });
+
+    // get user after deletion
+    const getUserRequest2: GetUserByIdDto = { id: JSON.parse(createUserResponse.body).id };
+    const getUserResponse2 = await app.inject({
+      method: 'get',
+      url: `${url}/${getUserRequest2.id}`,
+      payload: getUserRequest2,
+    });
+
+    expect(getUserResponse1.statusCode).toBe(200);
+    expect(getUserResponse2.statusCode).toBe(404);
+  });
 });

@@ -50,8 +50,24 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
     },
   });
 
-  // DELETE /api/v1/users/:email
-  // TODO: Implement
+  // DELETE /api/v1/users/:id
+  fastify.delete<{ Params: GetUserByIdDto }>('/:id', {
+    schema: {
+      description: 'Delete a user and its event history',
+      params: getUserByIdSchema,
+      response: {
+        200: {},
+        404: notFoundErrorSchema,
+        422: unprocessableEntityErrorSchema,
+        500: internalServerErrorSchema,
+      },
+      tags: ['users'],
+    },
+    handler: async (request, reply) => {
+      await userService.deleteUserById(request.params.id);
+      reply.status(200).send();
+    },
+  });
 };
 
 export default userRoutes;

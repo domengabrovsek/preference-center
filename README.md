@@ -103,6 +103,7 @@ http://localhost:3001/docs
 
 - `POST /api/v1/users` - Create a new user
 - `GET /api/v1/users/:id` - Get user with latest consent state by user id
+- `DELETE /api/v1/users/:id` - Delete user with all its consent event history
 
 #### Consent Events
 
