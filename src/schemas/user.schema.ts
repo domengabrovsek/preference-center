@@ -2,28 +2,6 @@ import type { Static } from '@sinclair/typebox';
 import { Type } from '@sinclair/typebox';
 import { userEmailSchema, userIdSchema, consentSchema } from './common.schema';
 
-const userIdSchema = Type.String({
-  format: 'uuid',
-  description: 'UUID v4 format identifier of the user',
-  examples: ['ba1ad90d-b471-45a1-b5ca-b4a339e16ccf'],
-});
-
-const userEmailSchema = Type.String({
-  format: 'email',
-  description: 'Valid email address',
-  examples: ['user@example.com'],
-});
-
-const consentSchema = Type.Object({
-  id: Type.String({
-    description: 'Consent identifier',
-    enum: ['email_notifications', 'sms_notifications'],
-  }),
-  enabled: Type.Boolean({
-    description: 'Consent status',
-  }),
-});
-
 export const createUserSchema = Type.Object(
   {
     email: userEmailSchema,
