@@ -25,11 +25,11 @@ export class UserRepository extends BaseRepository {
       consents: [],
     };
 
-    if (user.email_notifications !== null) {
+    if (typeof user.email_notifications === 'boolean') {
       mappedUser.consents.push({ id: 'email_notifications', enabled: user.email_notifications });
     }
 
-    if (user.sms_notifications !== null) {
+    if (typeof user.sms_notifications === 'boolean') {
       mappedUser.consents.push({ id: 'sms_notifications', enabled: user.sms_notifications });
     }
 
