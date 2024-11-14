@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { BaseRepository } from './base.repository';
 import type { ConsentEvent, ConsentEventHistory } from '@models/consent';
-import { DatabaseError } from '@utils/errors';
+import { DatabaseError, NotFoundError } from '@utils/errors';
 import type { CreateConsentEventDto } from '@schemas/consent.schema';
 
 interface ConsentEventDb {
@@ -70,6 +70,10 @@ export class ConsentEventRepository extends BaseRepository {
     `;
 
     const { rows } = await this.query<ConsentEventDb>(query, [userId]);
+
+    if (rows.length === 0) {
+      throw new NotFoundError('User not found');
+    }
 
     return {
       id: rows[0].user_id,

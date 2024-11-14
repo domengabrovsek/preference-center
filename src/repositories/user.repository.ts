@@ -81,4 +81,12 @@ export class UserRepository extends BaseRepository {
 
     return this.mapUser(user);
   }
+
+  public async deleteById(id: string): Promise<void> {
+    // delete consent events
+    await this.query('DELETE FROM consent_events WHERE user_id = $1', [id]);
+
+    // delete user
+    await this.query('DELETE FROM users WHERE id = $1', [id]);
+  }
 }
