@@ -66,5 +66,8 @@ jobs:
       - name: Start database
         run: docker compose up -d
 
+      - name: Wait 2 seconds for database to start
+        run: sleep 2
+
       - name: Run tests
         run: npm run test
