@@ -13,3 +13,14 @@ export interface ConsentEvent {
     sms_notifications: boolean;
   };
 }
+
+export interface ConsentEventHistory {
+  id: string;
+  consents: ConsentEventHistoryRecord[];
+}
+
+export interface ConsentEventHistoryRecord {
+  email_notifications: boolean;
+  sms_notifications: boolean;
+  created_at: Date;
+}
